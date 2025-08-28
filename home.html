@@ -35,7 +35,7 @@
 
             <div class="grid-2">
                 <button class="hero-card card1" id="borrowBtn"><h3>Borrow</h3></button>
-                <button class="hero-card card2" href="#"><h3>Lend</h3></button>
+                <button class="hero-card card2" id="lendBtn"><h3>Lend</h3></button>
                 <button class="hero-card card3" href="#"><h3>View Stats</h3></button>
                 <button class="hero-card card4" href="#"><h3>History</h3></button>
             </div>
@@ -91,31 +91,62 @@
     </section>
     <section class='mobile-app'>
         <h1 class="title mobile-app-title">We even got our smart phone page as well!</h1>
-        <div class="info-about mobile-app-box">
-
+        <div class="mobile-app-box">
+            <img src="handphone.png" alt="Mobile App" width="300"/>
         </div>
     </section>
     <!-- FEATURE SECTION -->
     <section class="features">
-        <div class="container grid-3">
-            <div class="feature-card">
-                <h3>Test Header 1</h3>
-                <p>lorem</p>
-            </div>
-            <div class="feature-card">
-                <h3>Test Header 2</h3>
-                <p>lorem</p>
-            </div>
-            <div class="feature-card">
-                <h3>Test Header 2</h3>
-                <p>lorem</p>
-            </div>
-        </div>
+        <div class="container">
+            <h2 class="tutorial-heading">How to use AssetPilot</h2>
 
-        <div class="box-1">
-            <p>BOX</p>
+            <div class="carousel-container">
+                <button class="nav-arrow" id="prevBtn">‹</button>
+
+            <div class="mockup-container">
+                <img
+                src="https://png.pngtree.com/png-clipart/20230222/ourmid/pngtree-macbook-pro-16-png-image_6614408.png"
+                alt="MacBook Mockup"
+                class="mockup-image"
+                />
+                <div class="mockup-screen">
+                    <div class="screenshots-container" id="screenshotsContainer">
+                        <div class="screenshot">
+                        <img src="screenshot1.png" alt="screenshot 1" />
+                        </div>
+                        <div class="screenshot">
+                        <img src="screenshot2.png" alt="screenshot 2" />
+                        </div>
+                        <div class="screenshot">
+                        <img src="screenshot3.png" alt="screenshot 3" />
+                        </div>
+                        <div class="screenshot">
+                        <img src="screenshot4.png" alt="screenshot 4" />
+                        </div>
+                        <div class="screenshot">
+                        <img src="screenshot5.png" alt="screenshot 5" />
+                        </div>
+                        <div class="screenshot">
+                        <img src="screenshot6.png" alt="screenshot 6" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="nav-arrow" id="nextBtn">›</button>
+            </div>
+
+            <div class="dots-indicator" id="dotsIndicator">
+                <div class="dot active" data-index="0"></div>
+                <div class="dot" data-index="1"></div>
+                <div class="dot" data-index="2"></div>
+                <div class="dot" data-index="3"></div>
+                <div class="dot" data-index="4"></div>
+                <div class="dot" data-index="5"></div>
+            </div>
         </div>
     </section>
+
 
     <!-- FOOTER -->
     <footer class="site-footer">
@@ -162,6 +193,10 @@
                     <label for="assetType">Asset Type</label>
                     <select id="assetType" name="assetType"  required >
                         <option value="Utility">Utility</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Gold">Gold</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Loan">Loan</option>
                     </select>
                 </div>
                 
@@ -174,10 +209,8 @@
                     <input type="text" id="borrowedFrom" name="borrowedFrom" required />
                 </div>
                 <div class="field">
-                    <label for="deadline">Deadline</label>
-                    <select id="deadline" name="deadline"  required >
-                        <option value="deadline">Deadline</option>
-                    </select>
+                    <label for="deadline">Deadline:</label>
+                    <input type="date" id="deadline" name="deadline" required />
                 </div>
                 
                 <div class="field">
@@ -187,7 +220,66 @@
                 <div class="field">
                     <label for="category">Category</label>
                     <select id="category" name="category"  required >
-                        <option value="category">Category</option>
+                        <option value="emergency">Emergency</option>
+                        <option value="personal">Personal</option>
+                        <option value="investment">Investment</option>
+                        <option value="Loan">Loan</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field note">
+                <label for="addNote">Add a Note</label>
+                <input type="text" id="addNote" name="addNote" placeholder="comment..."/>
+            </div>
+            
+            <div class="submit">
+                <button class="submit" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="lend">
+        <h1 class="lend-heading">Record <span class="lend-title">Lent</span> Asset
+            <span class="close-wrap"><button id="closeModal">X</button></span>
+        </h1>
+        
+        <form>
+            <div class="form-grid">
+                <div class="field">
+                    <label for="assetType">Asset Type</label>
+                    <select id="assetType" name="assetType"  required >
+                        <option value="Utility">Utility</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Gold">Gold</option>
+                        <option value="Silver">Silver</option>
+                        <option value="Loan">Loan</option>
+                    </select>
+                </div>
+                
+                <div class="field"> 
+                    <label for="amount">Amount</label>
+                    <input type="text" id="amount" name="amount" required />
+                </div>
+                <div class="field">
+                    <label for="borrowedFrom">Lent to</label>
+                    <input type="text" id="LentTo" name="LentTo" required />
+                </div>
+                <div class="field">
+                    <label for="deadline">Deadline:</label>
+                    <input type="date" id="deadline" name="deadline" required />
+                </div>
+                
+                <div class="field">
+                    <label for="interest">Interest Rate</label>
+                    <input type="text" id="interest" name="interest" required />
+                </div>
+                <div class="field">
+                    <label for="category">Category</label>
+                    <select id="category" name="category"  required >
+                        <option value="emergency">Emergency</option>
+                        <option value="personal">Personal</option>
+                        <option value="investment">Investment</option>
+                        <option value="Loan">Loan</option>
                     </select>
                 </div>
             </div>
