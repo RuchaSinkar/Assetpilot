@@ -30,7 +30,7 @@ a {
     padding-bottom: 1.5rem;
     border-bottom: 1px solid #3d3c3c;
     position:sticky;
-    z-index: 9999;
+    z-index: 999;
     top:0;
 }
 .site-header .container {
@@ -49,6 +49,23 @@ a {
     transition: color 0.2s ease;
 }
 .nav-links a:hover {
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.signbtn{
+    border: none;
+    background: none;
+    outline: none;
+    color: #a9a8a8;
+    text-decoration: none;
+    margin-left: 5rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    font-size: 1rem;
+}
+
+.nav-links .signbtn:hover {
     color: #ffffff;
     cursor: pointer;
 }
@@ -299,6 +316,16 @@ a {
   border-color: #AD49E1;
 }
 
+.tutorial-steps{
+    color: #7A1CAC;
+    font-size: 2.5rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.tutorial-steps h3{
+    display: none;
+}
 
 /* Footer */
 .footer-grid {
@@ -749,11 +776,18 @@ figcaption{
     border-color: #29153300;
     cursor: pointer;
 }
-.borrow-heading {
+.borrow-heading, .account-heading {
     position: relative;   /* allow positioning children */
 }
 .lend-heading {
     position: relative;   /* allow positioning children */
+}
+
+.tab-panel {
+    display: none;
+}
+.tab-panel.active {
+    display: block;
 }
 
 .close-wrap {
@@ -767,3 +801,5 @@ figcaption{
     color: white;
     cursor: pointer;
 }
+
+

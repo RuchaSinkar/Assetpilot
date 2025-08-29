@@ -17,10 +17,12 @@ document.querySelectorAll('.icon').forEach(icon => {
 
 const borrowBtn = document.getElementById("borrowBtn");
 const lendBtn = document.getElementById("lendBtn");
+const signInBtn = document.getElementById("signInBtn");
 const modalOverlay = document.getElementById("modalOverlay");
 const closeModalBtns = document.querySelectorAll("#closeModal"); 
 const borrowForm = document.querySelector(".borrow");
 const lendForm = document.querySelector(".lend");
+const accountForm = document.querySelector(".account");
 
 // when user clicks borrow button
 borrowBtn.addEventListener("click", () => {
@@ -36,15 +38,100 @@ lendBtn.addEventListener("click", () => {
   borrowForm.style.display = "none";
 });
 
+signInBtn.addEventListener("click", () => {
+  modalOverlay.style.display = "flex";  
+  accountForm.style.display = "grid";
+});
+
 // when user clicks close button
 closeModalBtns.forEach(btn => {
   btn.addEventListener("click", () => {
     modalOverlay.style.display = "none";
     borrowForm.style.display = "none";
     lendForm.style.display = "none";
+    accountForm.style.display = "none";
   });
 });
 
+//for sign up sign in page
+function switchToSignup() {
+    switchTab('signup');
+}
+function switchToLogin() {
+    switchTab('login');
+}
+function switchTab(tab) {
+    const loginPanel = document.getElementById('login-panel');
+    const signupPanel = document.getElementById('signup-panel');
+
+    if (tab === 'login') {
+        loginPanel.classList.add('active');
+        loginPanel.style.display = 'block';
+
+        signupPanel.classList.remove('active');
+        signupPanel.style.display = 'none';
+    } else if (tab === 'signup') {
+        signupPanel.classList.add('active');
+        signupPanel.style.display = 'block';
+
+        loginPanel.classList.remove('active');
+        loginPanel.style.display = 'none';
+    }
+}
+// Form submission handlers
+function initializeForms() {
+    // Login form handler
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        // Basic validation
+        if (!email || !password) {
+            alert('Please fill in all fields!');
+            return;
+        }
+
+        // Simulate login process
+        showSuccess(`Welcome back! You've successfully logged in as ${email}`);
+    });
+
+    // Signup form handler
+    document.getElementById('signup-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('signup-name').value;
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const termsAccepted = document.getElementById('terms').checked;
+
+        // Validation
+        if (!name || !email || !password || !confirmPassword) {
+            alert('Please fill in all fields!');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match!');
+            return;
+        }
+
+        if (password.length < 6) {
+            alert('Password must be at least 6 characters long!');
+            return;
+        }
+
+        if (!termsAccepted) {
+            alert('Please accept the Terms of Service and Privacy Policy!');
+            return;
+        }
+
+        // Simulate account creation
+        showSuccess(`Account created successfully! Welcome ${name}! A confirmation email has been sent to ${email}`);
+    });
+}
 
 
 // How to User AssetPilot Section (carousel)
@@ -61,7 +148,7 @@ class AssetPilotCarousel {
     if (this.container && this.prevBtn && this.nextBtn && this.dotsIndicator) {
       this.init();
     } else {
-      console.error("AssetPilot Carousel: Required elements not found");
+      console.error("Errror! Required elements not found");
     }
   }
 
@@ -98,7 +185,7 @@ class AssetPilotCarousel {
     });
 
     this.addTouchSupport();
-    this.updateCarousel();
+    this.updateCarousel(); // ensures correct step is shown on load
   }
 
   goToNext() {
@@ -127,6 +214,11 @@ class AssetPilotCarousel {
 
     document.querySelectorAll(".dot").forEach((dot, index) => {
       dot.classList.toggle("active", index === this.currentIndex);
+    });
+
+    // Show only the current step heading
+    document.querySelectorAll(".tutorial-steps h3").forEach((step, index) => {
+      step.style.display = index === this.currentIndex ? "block" : "none";
     });
   }
 
