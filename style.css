@@ -674,7 +674,7 @@ figcaption{
   border-radius: 30px;
   align-items: center;
   justify-content: center;
-  max-height: 85vh;   /* takes at most 90% of viewport height */
+  /*max-height: 85vh;*/   /* takes at most 90% of viewport height */
 }
 
 .form-grid{
