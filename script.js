@@ -53,7 +53,7 @@ closeModalBtns.forEach(btn => {
   });
 });
 
-//for sign up sign in page
+//--------------------------------------------for sign in page----------------------------------------------------------
 function switchToSignup() {
     switchTab('signup');
 }
@@ -63,7 +63,6 @@ function switchToLogin() {
 function switchTab(tab) {
     const loginPanel = document.getElementById('login-panel');
     const signupPanel = document.getElementById('signup-panel');
-
     if (tab === 'login') {
         loginPanel.classList.add('active');
         loginPanel.style.display = 'block';
@@ -83,16 +82,13 @@ function initializeForms() {
     // Login form handler
     document.getElementById('login-form').addEventListener('submit', function(e) {
         e.preventDefault();
-        
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-password').value;
-
         // Basic validation
         if (!email || !password) {
             alert('Please fill in all fields!');
             return;
         }
-
         // Simulate login process
         showSuccess(`Welcome back! You've successfully logged in as ${email}`);
     });
@@ -106,35 +102,30 @@ function initializeForms() {
         const password = document.getElementById('signup-password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
         const termsAccepted = document.getElementById('terms').checked;
-
         // Validation
         if (!name || !email || !password || !confirmPassword) {
             alert('Please fill in all fields!');
             return;
         }
-
         if (password !== confirmPassword) {
             alert('Passwords do not match!');
             return;
         }
-
         if (password.length < 6) {
             alert('Password must be at least 6 characters long!');
             return;
         }
-
         if (!termsAccepted) {
             alert('Please accept the Terms of Service and Privacy Policy!');
             return;
         }
-
         // Simulate account creation
         showSuccess(`Account created successfully! Welcome ${name}! A confirmation email has been sent to ${email}`);
     });
 }
 
 
-// How to User AssetPilot Section (carousel)
+// ---------------------------- How to User AssetPilot Section (carousel) --------------------------------------
 class AssetPilotCarousel {
   constructor() {
     this.currentIndex = 0;

@@ -23,7 +23,7 @@ a {
 }
 
 
-/* Header */
+/*-------------------------------------HEADER SECTION----------------------------------------------*/
 .site-header {
     background-color: #1A1A1D;
     padding-top: 1.5rem;
@@ -70,7 +70,7 @@ a {
     cursor: pointer;
 }
 
-/* Hero Section */
+/*-------------------------------------HERO SECTION----------------------------------------------*/
 
 .hero {
     color: white;
@@ -103,11 +103,19 @@ a {
     transition: background 0.2s ease;
     margin-top: 2.2rem;
     text-align: left;
+    transition: all 0.2s ease;
+    border: none;
 }
 
 .cta-button:hover {
     background-color: #AD49E1;
     cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cta-button:active {
+    transform: scale(0.95);
 }
 
 .hero-flex {
@@ -184,7 +192,7 @@ a {
 
 
 
-/* Features Section */
+/*-------------------------------------features(How To Use AssetPilot)---------------------------------------------*/
 
 .features {
     background-color: #fff;
@@ -327,7 +335,7 @@ a {
     display: none;
 }
 
-/* Footer */
+/*-------------------------------------FOOTER---------------------------------------------*/
 .footer-grid {
     display: flex;
     justify-content: center; 
@@ -526,7 +534,7 @@ a {
     color: #ef4444; 
     cursor: pointer;
 }
-/*About section*/
+/*-----------------------------------------About section------------------------------------------------*/
 .about{
     padding: 4rem 1rem;
     display: grid;
@@ -600,6 +608,8 @@ figcaption{
 .img-des{
     color: #2c1838;
 }
+
+/*-------------------------------------Mobile App Section---------------------------------------------*/
 .mobile-app{
     position: relative;
     margin-top: 0;
@@ -647,7 +657,7 @@ figcaption{
     }
 }
 
-
+/*-------------------------------Borrow/Lend Buttons---------------------------------------------*/
 
 /*
 .borrow, .lend{
@@ -674,7 +684,7 @@ figcaption{
   border-radius: 30px;
   align-items: center;
   justify-content: center;
-  /*max-height: 85vh;*/   /* takes at most 90% of viewport height */
+  max-height: 85vh;   /* takes at most 90% of viewport height */
 }
 
 .form-grid{
@@ -765,18 +775,25 @@ figcaption{
 }
 .submit button{
     color:white;
-    /*background-color: #7A1CAC;*/
-    background-color : #00bf63;
+    background-color: #AD49E1;
     border-color: #29153300;
     width: 10rem;
+    transition: all 0.2s ease;
 }
 .submit button:hover{
     color:white;
    /* background-color: #361747; */
-    background-color: #055f28;
+    background-color:#7A1CAC;
     border-color: #29153300;
     cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
 }
+
+.submit button:active{
+    transform: scale(0.95);
+}
+
 .borrow-heading, .account-heading {
     position: relative;   /* allow positioning children */
 }
@@ -794,6 +811,113 @@ figcaption{
 .close-wrap {
     float: right;         /* pushes the X to the right end */
 }
+/*-----------------------------------Login page---------------------------------------*/
+.account{
+    background-color: #363639;
+    color: white;
+    margin-top: 10rem 10rem;
+    width: 30rem;
+    display: none;   /* hide by default */
+    padding: 2.5rem;
+    gap: 1rem;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-panel{
+    width: 20rem;
+}
+
+.Logfield{
+    display: flex;
+    flex-direction: column;  /* stack label and input vertically */
+    gap: 0.25rem;    
+    padding: 0.5rem;
+}
+
+.Logfield label{
+    justify-content: center;
+    color: rgb(195, 188, 188);
+    font-size: 17px;
+}
+
+.Logfield input{
+    border-radius: 10px;
+    padding: 0.5rem 0.5rem;
+    background-color: #2b2b2d;
+    color: white;  
+    border-color: #3d3b3f1a;
+}
+
+.Logfield input:focus{
+    border: 2px solid #7A1CAC;
+    outline: none;
+    box-shadow: 0 0 8px rgba(122, 28, 172, 0.8); /* brighter purple glow */
+    
+    transition: border 0.3s ease, box-shadow 0.3s ease; /* smooth animation */
+}
+
+
+.forgot-password {
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
+.forgot-password a:hover{
+    color: white;
+}
+.btn-primary {
+    display: block;  
+    margin: 1.5rem auto;
+    border-radius: 10px;
+    background-color: #AD49E1;
+    width: 12rem;
+    height: 2rem;
+    border: none;
+    font-size: 1rem;
+    transition: all 0.2s ease
+}
+
+.btn.btn-primary:hover {
+    background-color: #7A1CAC; 
+    border-color: transparent;
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn.btn-primary:active {
+    transform: scale(0.95); 
+}
+.divider{
+    text-align: center;
+    margin-top: -1rem;
+}
+
+.btn-social.google-btn, .btn-social.apple-btn{
+    display: block;
+    margin: 0.5rem auto;
+    width: 15rem;
+    border-radius: 10px;
+    height: 2rem;
+    border: none;
+    transition: all 0.2s ease;
+}
+.btn-social.google-btn:hover, .btn-social.apple-btn:hover{
+    cursor: pointer;
+}
+.btn-social.google-btn:active, .btn-social.apple-btn:active{
+    transform: scale(0.95); 
+}
+.auth-switch{
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.auth-switch a:hover{
+    color: white;
+}
 
 #closeModal {
     background: none;
@@ -802,14 +926,15 @@ figcaption{
     color: white;
     cursor: pointer;
 }
-/*DashBoard*/
+
+/*-------------------------------------DashBoard----------------------------------------------*/
 
 .flashcard {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
     padding: 1rem;
-    background-color: #363639;
+    background-color: #1f1f1f;
     border-radius: 10px;
 }
 
@@ -907,7 +1032,7 @@ figcaption{
 
 .dash-main{
     border-radius: 10px;
-    background-color: #363639;
+    background-color: #1f1f1f;
     padding:1rem;
 }
 .dash-body{

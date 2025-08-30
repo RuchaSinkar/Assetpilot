@@ -31,7 +31,7 @@
                 <p class="hero-sub-title">
                 Make it easy to track all the Assets you owe them or all the Assets they owe you with your finance buddy, AssetPilot!
                 </p>
-                <button href="#" class="cta-button">Visit Your Dashboard</button>
+                <button onclick="window.location.href='dashboard.html'" class="cta-button">Visit Your Dashboard</button>
              </div>
 
             <div class="grid-2">
@@ -90,9 +90,9 @@
         </div>
         
     </section>
-    <section class='images/mobile-app'>
-        <h1 class="images/title mobile-app-title">We even got our smart phone page as well!</h1>
-        <div class="images/mobile-app-box">
+    <section class='mobile-app'>
+        <h1 class="title mobile-app-title">We even got our smart phone page as well!</h1>
+        <div class="mobile-app-box">
             <img src="images/handphone.png" alt="Mobile App" width="300"/>
         </div>
     </section>
@@ -308,7 +308,7 @@
             <!--<div class="close-btn" onclick="closeModal()">
                 <i class="fas fa-times"></i>
             </div>-->
-            <h1 class="account-heading">Join AssetPilot
+            <h1 class="account-heading">Join Us
             <span class="close-wrap"><button id="closeModal">X</button></span>
             </h1>
 
@@ -316,12 +316,12 @@
             <!-- Login Tab -->
             <div class="tab-panel active" id="login-panel">
                 <form id="login-form">
-                    <div class="field">
+                    <div class="Logfield">
                         <label for="login-email">Email</label>
                         <input type="email" id="login-email" name="email" required>
                     </div>
                     
-                    <div class="field">
+                    <div class="Logfield">
                         <label for="login-password">Password</label>
                         <input type="password" id="login-password" name="password" required>
                     </div>
@@ -348,32 +348,32 @@
                 </button>
 
                 <div class="auth-switch">
-                    Don't have an account? <a onclick="switchToSignup()">Sign up</a>
+                    Don't have an account? <a href="#" onclick="switchToSignup()">Sign up</a>
                 </div>
             </div>
 
             <!-- Sign Up Tab -->
             <div class="tab-panel" id="signup-panel">
                 <form id="signup-form">
-                    <div class="field">
+                    <div class="Logfield">
                         <label for="signup-name">Full Name</label>
                         <input type="text" id="signup-name" name="name" required>
                     </div>
                     
-                    <div class="field">
+                    <div class="Logfield">
                         <label for="signup-email">Email</label>
                         <input type="email" id="signup-email" name="email" required>
                     </div>
                     
-                    <div class="field">
+                    <div class="Logfield">
                         <label for="signup-password">Password</label>
                         <input type="password" id="signup-password" name="password" required>
                     </div>
-                    
-                    <div class="field">
+                    <!--
+                    <div class="Logfield">
                         <label for="confirm-password">Confirm Password</label>
                         <input type="password" id="confirm-password" name="confirmPassword" required>
-                    </div>
+                    </div>-->
 
                     <div class="checkbox-group">
                         <input type="checkbox" id="terms" required>
@@ -398,7 +398,7 @@
                 </button>
 
                 <div class="auth-switch">
-                    Already have an account? <a onclick="switchToLogin()">Sign in</a>
+                    Already have an account? <a href="#" onclick="switchToLogin()">Sign in</a>
                 </div>
             </div>
         </div>
