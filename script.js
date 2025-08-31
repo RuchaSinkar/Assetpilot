@@ -254,3 +254,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, 100);
 });
+
+
+// Milestone Carousel
+
+if (document.querySelector('.milestones-wrapper')) {
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+             new MilestoneCarousel();
+        }, 100);
+    });
+}
+
+if (document.querySelector('.milestones-wrapper2')) {
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+             new MilestoneCarousel();
+        }, 100);
+    });
+}
+
+if (document.querySelector('.milestones-wrapper3')) {
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+             new MilestoneCarousel();
+        }, 100);
+    });
+}
+
+if (document.querySelector('.milestones-wrapper4')) {
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+             new MilestoneCarousel();
+        }, 100);
+    });
+}
