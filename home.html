@@ -37,7 +37,7 @@
             <div class="grid-2">
                 <button class="hero-card card1" id="borrowBtn"><h3>Borrow</h3></button>
                 <button class="hero-card card2" id="lendBtn"><h3>Lend</h3></button>
-                <button class="hero-card card3" href="#"><h3>View Stats</h3></button>
+                <button class="hero-card card3" id="statsBtn"><h3>View Stats</h3></button>
                 <button class="hero-card card4" href="#"><h3>History</h3></button>
             </div>
         </div>
@@ -210,8 +210,8 @@
                 </div>
                 
                 <div class="field"> 
-                    <label for="amount">Amount</label>
-                    <input type="text" id="amount" name="amount" required />
+                    <label for="amount-borrow">Amount</label>
+                    <input type="text" id="amount-borrow" name="amount" required />
                 </div>
                 <div class="field">
                     <label for="borrowedFrom">Borrowed From</label>
@@ -239,7 +239,7 @@
 
             <div class="field note">
                 <label for="addNote">Add a Note</label>
-                <input type="text" id="addNote" name="addNote" placeholder="comment..."/>
+                <input type="text" class="addNote" name="addNote" placeholder="comment..."/>
             </div>
             
             <div class="submit">
@@ -256,7 +256,7 @@
             <div class="form-grid">
                 <div class="field">
                     <label for="assetType">Asset Type</label>
-                    <select id="assetType" name="assetType"  required >
+                    <select class="assetType" name="assetType"  required >
                         <option value="Utility">Utility</option>
                         <option value="Cash">Cash</option>
                         <option value="Gold">Gold</option>
@@ -266,11 +266,11 @@
                 </div>
                 
                 <div class="field"> 
-                    <label for="amount">Amount</label>
-                    <input type="text" id="amount" name="amount" required />
+                    <label for="amount-lend">Amount</label>
+                    <input type="text" id="amount-lend" name="amount" required />
                 </div>
                 <div class="field">
-                    <label for="borrowedFrom">Lent to</label>
+                    <label for="LendTo">Lent to</label>
                     <input type="text" id="LentTo" name="LentTo" required />
                 </div>
                 <div class="field">
@@ -295,7 +295,7 @@
 
             <div class="field note">
                 <label for="addNote">Add a Note</label>
-                <input type="text" id="addNote" name="addNote" placeholder="comment..."/>
+                <input type="text" class="addNote" name="addNote" placeholder="comment..."/>
             </div>
             
             <div class="submit">
@@ -403,6 +403,6 @@
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

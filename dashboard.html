@@ -83,6 +83,39 @@
 
     </div>
 </div>
+<div class="container dash">
+    <div class="dash-main">
+        <h1 class="title dash-title">Your Statistics</h1>
+        <div class="glow-line"></div>
+        <h2>Overall</h2>
+        <div class="flashcard">
+            <div class="main-card ">
+                <div class="stat-card">
+                <h3>Total Assets Lent so far</h3>
+                <span class="main-data lent-data">Rs 15000</span>
+                </div>
+            </div>
+
+            <div class="main-card">
+                <div class="stat-card">
+                <h3>Total Assets Borrowed so far</h3>
+                <span class="main-data borrow-data">Rs 35500</span>
+                </div>
+            </div>
+
+            <div class="main-card">
+                <div class="stat-card">
+                <h3>Total Transactions so far</h3>
+                <span class="main-data trans-data">35</span>
+                </div>
+            </div>
+            <!--Chart pie chart lent asset type distribution-->
+
+            <div class="stats-chart">
+                <canvas id="statsPieChart"></canvas>
+            </div>
+
+        </div>
 
 <!-- FOOTER -->
 <footer class="site-footer">
@@ -116,7 +149,7 @@
             <p>&copy; 2025 Asset Pilot. All rights reserved.</p>
         </div>
 </footer>
-    
-  
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

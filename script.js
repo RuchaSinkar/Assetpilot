@@ -289,3 +289,30 @@ if (document.querySelector('.milestones-wrapper4')) {
         }, 100);
     });
 }
+
+//pie chart
+window.onload = function() {
+  const c = document.getElementById('statsPieChart');
+  console.log("Canvas element is:", c); // should not be null
+
+  new Chart(c, {
+    type: 'pie',
+    data: {
+      labels: ['Borrowed', 'Lent'],
+      datasets: [{
+        data: [2200, 2500],
+        backgroundColor: ['#ef4444', '#22c55e'],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: '#fff' }
+        }
+      }
+    }
+  });
+};
