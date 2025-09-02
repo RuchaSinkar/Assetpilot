@@ -16,9 +16,9 @@
             <nav class="nav-links">
                 <a href="home.html">Home</a>
                 <a href="dashboard.html">Dashboard</a>
-                <a href="report.html">Report</a>"
+                <a href="report.html">Report</a>
                 <a href="#">About</a>
-                <a href="#">Sign in</a>
+                <button class="signbtn" onclick="window.location.href='signin.html';"><p>Sign in</p></button>
             </nav>
         </div>
     </header>
@@ -83,39 +83,56 @@
 
     </div>
 </div>
-<div class="container dash">
-    <div class="dash-main">
-        <h1 class="title dash-title">Your Statistics</h1>
-        <div class="glow-line"></div>
-        <h2>Overall</h2>
-        <div class="flashcard">
-            <div class="main-card ">
+
+
+<div class="container-stats">
+    <div class="stats-main">
+        <h1 class="stats-title">Your Statistics</h1>
+        <div class="stats-flashcard">
+            <div class="main-card main-stat-card1">
                 <div class="stat-card">
                 <h3>Total Assets Lent so far</h3>
                 <span class="main-data lent-data">Rs 15000</span>
                 </div>
             </div>
 
-            <div class="main-card">
+            <div class="main-card main-stat-card2">
                 <div class="stat-card">
                 <h3>Total Assets Borrowed so far</h3>
                 <span class="main-data borrow-data">Rs 35500</span>
                 </div>
             </div>
 
-            <div class="main-card">
+            <div class="main-card main-stat-card3">
                 <div class="stat-card">
                 <h3>Total Transactions so far</h3>
                 <span class="main-data trans-data">35</span>
                 </div>
             </div>
-            <!--Chart pie chart lent asset type distribution-->
 
-            <div class="stats-chart">
+            <div class="charts">
+        <div class="charts-cards">
+            <div class="chart">
+                <h3 class="lent-head">Lent Asset Distributor</h3>
                 <canvas id="statsPieChart"></canvas>
             </div>
-
+            <div class="chart">
+                <h3 class="amount-head">Outstanding v/s Settled Amounts</h3>
+                <canvas id="amtSemiDonutChart"></canvas>
+            </div>
+            <div class="chart">
+                <h3 class="borrow-head">Borrowed Asset Type Distribution</h3>
+                <canvas id="borrowDonutChart"></canvas>
+            </div>
         </div>
+    </div>
+            <!--Chart pie chart lent asset type distribution-->
+        </div>
+    </div>
+
+    
+
+</div>  
 
 <!-- FOOTER -->
 <footer class="site-footer">
@@ -150,6 +167,6 @@
         </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="script.js"></script>
+<script src="charts.js" defer></script>
 </body>
 </html>
