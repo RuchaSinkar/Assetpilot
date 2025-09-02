@@ -812,13 +812,28 @@ figcaption{
     float: right;         /* pushes the X to the right end */
 }
 /*-----------------------------------Login page---------------------------------------*/
+
+.sign-body {
+    display: flex;             
+    justify-content: center;     
+    align-items: center;  
+    margin: 0; 
+    height: 100vh; /* full viewport height */
+    background-image: url('images/abstract.jpg'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; /* prevent tiling */
+    background-color: rgba(0,0,0,0.5); /* dark layer */
+    background-blend-mode: darken;
+    }
+
 .account{
     background-color: #363639;
     color: white;
     margin-top: 10rem 10rem;
     width: 30rem;
-    display: none;   /* hide by default */
     padding: 2.5rem;
+    display: grid;
     gap: 1rem;
     border-radius: 20px;
     align-items: center;
@@ -919,7 +934,7 @@ figcaption{
     color: white;
 }
 
-#closeModal {
+.closeModal {
     background: none;
     border: none;
     font-size: 1.2rem;
@@ -1035,9 +1050,6 @@ figcaption{
     background-color: #1f1f1f;
     padding:1rem;
 }
-.dash-body{
-    background-color: white;
-}
 
 .transactions {
   margin-top: 30px;
@@ -1133,6 +1145,75 @@ figcaption{
     color:white;
     margin-left: 1rem;
 }
+
+
+
+/*-------------------------------------statistics Page----------------------------------------------*/
+.container-stats{
+    background-color: #1A1A1D;
+    margin-top: 5rem;
+}
+
+.stats-title{
+    font-size: 5rem;
+    color: white;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.stats-flashcard {
+    display: flex;
+    justify-content: center;   
+    gap: 2rem;            
+    padding: 1rem;
+    background-color: #1A1A1D;
+    max-width: 1400px;
+    margin: 0 auto;
+    flex-wrap: wrap;           
+}
+
+.main-card.main-stat-card1:hover{
+    border: 0.2px solid rgb(9, 80, 9);
+}
+.main-card.main-stat-card2:hover{
+    border: 0.2px solid rgb(106, 9, 9);
+}
+.main-card.main-stat-card3:hover{
+    border: 0.2px solid rgb(108, 93, 4);
+}
+
+.charts{
+        padding: 1rem;
+    }
+.chart-head{
+        color:white;
+        font-size: 1.5rem;
+    }
+.charts-cards{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        align-items: center;
+        justify-content: center;
+        object-fit: contain;
+        margin-top: 2rem;
+    }
+.chart{
+        width: 300px; 
+        height: 300px; 
+        margin: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+.lent-head,
+.amount-head,
+.borrow-head{
+        color:#cbc0c0;
+}
+
 /*-------------------------------------Report Page----------------------------------------------*/
 .report-body{
     background-color: #1A1A1D;
@@ -1242,7 +1323,8 @@ figcaption{
 
 
 
-/* --------------------------------------- Milestone Section type 1--------------------------------------- */
+/* --------------------------------------- Milestone Section type 2--------------------------------------- */
+
 .milestones-section {
     max-width: 1200px;
     margin: 0 auto;
@@ -1279,64 +1361,6 @@ figcaption{
     gap: 20px;
 }
 
-.milestone-card {
-    flex: 0 0 calc(33.333% - 13.333px); /* Correctly sizes cards for 3-up display, accounting for gap */
-    scroll-snap-align: start;
-    background: white;
-    border-radius: 12px;
-    padding: 24px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #e0e0e0;
-}
-
-.milestone-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-}
-
-.milestone-card img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    transition: transform 0.3s ease;
-}
-
-.milestone-card:hover img {
-    transform: scale(1.05);
-}
-
-.milestone-card h3 {
-    font-size: 1.2rem;
-    color: #2c3e50;
-    margin-bottom: 8px;
-    font-weight: 600;
-}
-
-.milestone-card p {
-    font-size: 0.9rem;
-    color: #666;
-    line-height: 1.4;
-}
-
-.milestones-wrapper::-webkit-scrollbar {
-  height: 8px;
-}
-
-.milestones-wrapper::-webkit-scrollbar-track {
-  background: #2b2b2d;
-  border-radius: 10px;
-}
-
-.milestones-wrapper::-webkit-scrollbar-thumb {
-  background: #7A1CAC;
-  border-radius: 10px;
-}
-
-/* --------------------------------------- Milestone Section type 2--------------------------------------- */
 .milestones-wrapper2 {
     flex: 1;
     overflow-x: auto; /* Re-enables the horizontal scrollbar */
@@ -1388,67 +1412,6 @@ figcaption{
 }
 
 .milestones-wrapper2::-webkit-scrollbar-thumb {
-  background: #7A1CAC;
-  border-radius: 10px;
-}
-
-
-/* --------------------------------------- Milestone Section type 3--------------------------------------- */
-.milestones-wrapper3 {
-    flex: 1;
-    overflow-x: auto; /* Re-enables the horizontal scrollbar */
-    overflow-y: hidden;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    padding: 20px 0;
-}
-
-.milestones-container3 {
-    display: flex;
-    gap: 20px;
-}
-
-.milestone-card3 {
-    flex: 0 0 calc(33.333% - 13.333px); /* Correctly sizes cards for 3-up display, accounting for gap */
-    scroll-snap-align: start;
-    color: #2a2929;
-    border-radius: 12px;
-    padding: 24px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid black;
-    background: white;
-    width: 5rem;
-}
-
-.milestone-card3:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-}
-
-.milestone-card3 img {
-    width: 100%;
-    height: 150px;
-    object-fit: contain;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    transition: transform 0.3s ease;
-}
-.milestone-card3 img:hover {
-    scale: transform(1.1);
-}
-
-.milestones-wrapper3::-webkit-scrollbar {
-  height: 8px;
-}
-.milestones-wrapper3::-webkit-scrollbar-track {
-  background: #2b2b2d;
-  border-radius: 10px;
-}
-
-.milestones-wrapper3::-webkit-scrollbar-thumb {
   background: #7A1CAC;
   border-radius: 10px;
 }
