@@ -238,3 +238,171 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   initializeForms();
 });
+
+
+
+
+/*------------------------------------------------------ */
+ document.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById("transactionContainer");
+    const viewMoreBtn = document.querySelector(".view-more");
+
+    const borrowForm = document.querySelector(".borrow"); // Borrow form
+    const lendForm = document.querySelector(".lend"); // Lend form
+
+    // Calculate days left
+    function calcDaysLeft(deadline) {
+        const now = new Date();
+        const due = new Date(deadline);
+        const diff = Math.ceil((due - now) / (1000 * 60 * 60 * 24));
+        return diff >= 0 ? diff : 0;
+    }
+
+    // Render transactions in the dashboard
+    function renderTransactions(data) {
+    container.innerHTML = ""; // clear old entries
+    data.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.classList.add("transaction", item.type === "borrowed" ? "borrowed" : "lent");
+        div.innerHTML = `
+            <span class="dot ${item.type === "borrowed" ? "red" : "green"}"></span>
+            <span class="amount">₹${item.amount} - <b>${item.assetType}</b></span>
+            <span class="detail">${item.type === "borrowed" ? "Borrowed from " + item.person : "Lent to " + item.person}</span>
+            <span class="due">Due ${item.deadline} <small>${calcDaysLeft(item.deadline)} days left</small></span>
+            <button class="mark-returned" data-index="${index}">&#x2714;</button>
+        `;
+        container.appendChild(div);
+    });
+
+    // Add event listeners for all “Mark as Returned” buttons
+    const buttons = container.querySelectorAll(".mark-returned");
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            markAsReturned(parseInt(btn.dataset.index));
+        });
+    });
+}
+
+function markAsReturned(index) {
+    let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    let history = JSON.parse(localStorage.getItem("history")) || [];
+
+    // Remove the transaction from active list
+    const [completed] = transactions.splice(index, 1);
+
+    // Add it to history
+    history.push(completed);
+
+    // Save both back to localStorage
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+    localStorage.setItem("history", JSON.stringify(history));
+
+    // Re-render transactions and update dashboard cards
+    renderTransactions(transactions);
+    updateFlashcards(); // This is your function for total lent/borrowed/pending
+    updateCharts(JSON.parse(localStorage.getItem("transactions")) || []);
+  }
+
+
+
+    // --- Handle Borrow Form Submission ---
+    if (borrowForm) {
+        borrowForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const borrowAmount = borrowForm.querySelector(".amount-borrow").value;
+            const borrowAsset = borrowForm.querySelector(".assetType").value;
+            const borrowFrom = borrowForm.querySelector(".borrowedFrom").value;
+            const borrowDeadline = borrowForm.querySelector(".deadline").value;
+
+            const newTransaction = {
+                type: "borrowed",
+                amount: borrowAmount,
+                assetType: borrowAsset,
+                person: borrowFrom,
+                deadline: borrowDeadline
+            };
+
+            const existing = JSON.parse(localStorage.getItem("transactions")) || [];
+            existing.push(newTransaction);
+            localStorage.setItem("transactions", JSON.stringify(existing));
+            
+            alert("Borrow transaction added successfully!");
+            updateFlashcards();
+            updateCharts(JSON.parse(localStorage.getItem("transactions")) || []);
+            borrowForm.reset();
+        });
+    }
+
+    // --- Handle Lend Form Submission ---
+    if (lendForm) {
+        lendForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const lendAmount = lendForm.querySelector(".amount-lend").value;
+            const lendAsset = lendForm.querySelector(".assetType").value;
+            const lendTo = lendForm.querySelector(".LentTo").value;
+            const lendDeadline = lendForm.querySelector(".deadline").value;
+
+            const newTransaction = {
+                type: "lent",
+                amount: lendAmount,
+                assetType: lendAsset,
+                person: lendTo,
+                deadline: lendDeadline
+            };
+
+            const existing = JSON.parse(localStorage.getItem("transactions")) || [];
+            existing.push(newTransaction);
+            localStorage.setItem("transactions", JSON.stringify(existing));
+            
+            alert("Lend transaction added successfully!");
+            updateFlashcards();
+            updateCharts(JSON.parse(localStorage.getItem("transactions")) || []);
+            lendForm.reset();
+        });
+    }
+
+    // --- View More Button ---
+    if (viewMoreBtn) {
+        viewMoreBtn.addEventListener("click", function () {
+            const storedData = JSON.parse(localStorage.getItem("transactions")) || [];
+            if (storedData.length > 0) {
+                renderTransactions(storedData);
+                viewMoreBtn.textContent = "Hide";
+                viewMoreBtn.onclick = () => {
+                    container.innerHTML = "";
+                    viewMoreBtn.textContent = "View More";
+                };
+            } else {
+                alert("No more transactions to show yet!");
+            }
+        });
+        updateFlashcards();
+        updateCharts(JSON.parse(localStorage.getItem("transactions")) || []);
+    }
+
+    function updateFlashcards() {
+    const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    let totalLent = 0, totalBorrowed = 0, pendingReturns = 0;
+    
+    transactions.forEach(item => {
+        if(item.type === "lent") totalLent += Number(item.amount);
+        if(item.type === "borrowed") totalBorrowed += Number(item.amount);
+    });
+
+    // You can also calculate pending returns if needed
+    // or your own logic
+    pendingReturns = transactions
+    .filter(tx => tx.type === "borrowed" && !tx.returned)
+    .reduce((sum, tx) => sum + Number(tx.amount), 0);
+
+    document.querySelector(".flashcard .main-card:nth-child(1) .main-data").textContent = totalLent;
+    document.querySelector(".flashcard .main-card:nth-child(2) .main-data").textContent = totalBorrowed;
+    document.querySelector(".flashcard .main-card:nth-child(3) .main-data").textContent = pendingReturns;
+}
+
+});
+
+
+
