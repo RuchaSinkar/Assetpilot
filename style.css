@@ -733,7 +733,38 @@ figcaption{
     border: 1px solid #7A1CAC;
     color: #fff;
 }*/
+.mark-returned {
+    background-color: #4CAF50; /* green */
+    color: white;
+    border: none;
+    border-radius: 50%; 
+    padding: 8px 12px; 
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin:1rem;
+}
 
+.mark-returned:hover {
+    background-color: red;
+    transform: scale(1.2);
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+
+.mark-returned:active {
+    transform: scale(1);
+    box-shadow: none;
+}
+
+#transactionContainer{
+    width:100%;
+    height: 100%;
+    gap:2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .submit{
     text-align: center;
     justify-content: center;

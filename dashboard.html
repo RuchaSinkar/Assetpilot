@@ -31,7 +31,7 @@
             <div class="main-card">
                 <div class="card">
                 <img src="images/deal.png" alt="lent-img" class="dash-img">
-                <span class="main-data">3000</span>
+                <span class="main-data" id="total-lent">3000</span>
                 </div>
                 <h3>Total Lent</h3>
             </div>
@@ -39,7 +39,7 @@
             <div class="main-card">
                 <div class="card">
                 <img src="images/borrow.png" alt="borrow-img" class="dash-img">
-                <span class="main-data">1500</span>
+                <span class="main-data" id="total-borrowed">1500</span>
                 </div>
                 <h3>Total Borrowed</h3>
             </div>
@@ -47,7 +47,7 @@
             <div class="main-card">
                 <div class="card">
                 <img src="images/time-left.png" alt="pending-img" class="dash-img">
-                <span class="main-data">500</span>
+                <span class="main-data" id="pending-returns">500</span>
                 </div>
                 <h3>Pending Returns</h3>
             </div>
@@ -56,6 +56,7 @@
                 <!-- Transaction Section -->
         <div class="dash-info">
             <section class="transactions">
+                <div id="transactionContainer">
             <div class="transaction borrowed">
                 <span class="dot red"></span>
                 <span class="amount">₹1700 - <b>silver</b></span>
@@ -64,6 +65,7 @@
             </div>
 
             <div class="transaction lent">
+
                 <span class="dot green"></span>
                 <span class="amount">₹2500 - <b>utility</b></span>
                 <span class="detail">Lent to Rucha</span>
@@ -76,8 +78,9 @@
                 <span class="detail">Borrowed from Aditya</span>
                 <span class="due">Due 2025-10-24 <small>70 days left</small></span>
             </div>
-
+        </div>
             <button class="view-more">View More</button>
+            
             </section>
         </div>
 
@@ -168,5 +171,6 @@
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="charts.js" defer></script>
+<script src="script.js"></script>
 </body>
 </html>
