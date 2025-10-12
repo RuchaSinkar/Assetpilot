@@ -21,35 +21,35 @@ const lendBtn = document.getElementById("lendBtn");
 const historyBtn = document.getElementById("historyBtn"); // Make sure your button has id="historyBtn" in HTML
 const modalOverlay = document.getElementById("modalOverlay");
 const closeModalBtns = document.querySelectorAll(".closeModal");
+const statsBtn = document.getElementById("statsBtn");
+
 
 // Modal sections
 const borrowForm = document.querySelector(".borrow");
 const lendForm = document.querySelector(".lend");
 const historySection = document.querySelector(".history-section");
+const viewStatsSection = document.querySelector(".view-stats");
+
 
 // --- Modal Logic ---
 
 // This function hides all modal sections. It's the key to preventing overlaps.
 function hideAllModals() {
-    if (borrowForm) borrowForm.style.display = "none";
-    if (lendForm) lendForm.style.display = "none";
-    if (historySection) historySection.style.display = "none";
+  if (borrowForm) borrowForm.style.display = "none";
+  if (lendForm) lendForm.style.display = "none";
+  if (historySection) historySection.style.display = "none";
+  if (viewStatsSection) viewStatsSection.style.display = "none";
 }
 
 // This function shows the overlay and a specific modal.
 function showModal(modalElement) {
-    // First, hide everything to ensure a clean slate.
-    hideAllModals();
-
-    // Set the correct display property for the chosen modal.
-    if (modalElement === borrowForm || modalElement === lendForm) {
-        modalElement.style.display = "grid";
-    } else if (modalElement === historySection) {
-        modalElement.style.display = "flex";
-    }
-
-    // Finally, show the main overlay.
-    if (modalOverlay) modalOverlay.style.display = "flex";
+  hideAllModals();
+  if ([borrowForm, lendForm].includes(modalElement)) {
+    modalElement.style.display = "grid";
+  } else if ([historySection, viewStatsSection].includes(modalElement)) {
+    modalElement.style.display = "flex";
+  }
+  if (modalOverlay) modalOverlay.style.display = "flex";
 }
 
 // This function closes the entire modal overlay.
@@ -59,10 +59,8 @@ function closeModal() {
     hideAllModals();
 }
 
-// --- Event Listeners ---
-
 // Check if all essential elements were found before adding listeners.
-if (borrowBtn && lendBtn && historyBtn && modalOverlay && closeModalBtns && borrowForm && lendForm && historySection) {
+if (borrowBtn && lendBtn && historyBtn && statsBtn && modalOverlay && closeModalBtns && borrowForm && lendForm && historySection && viewStatsSection) {
   
     // When user clicks the "Borrow" button:
     borrowBtn.addEventListener("click", () => {
@@ -79,6 +77,11 @@ if (borrowBtn && lendBtn && historyBtn && modalOverlay && closeModalBtns && borr
     renderHistory(); // Render fresh history data just before showing
     showModal(historySection);
 });
+
+statsBtn.addEventListener("click", () => {
+    updateStatsView();
+    showModal(viewStatsSection);
+  });
 
     // Add a listener to every close button.
     closeModalBtns.forEach(btn => {
@@ -291,6 +294,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+/* --------------------------Smooth Scrolling for about section -------------------------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+  // Enable smooth scrolling for hash links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener("click", function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute("href"));
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  });
+
+  // If page loaded with hash (like home.html#about-section)
+  if (window.location.hash) {
+    const target = document.querySelector(window.location.hash);
+    if (target) {
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 300);
+    }
+  }
+});
 
 
 /*------------------------------------------------------ */
@@ -423,6 +449,10 @@ function markAsReturned(id) {
             alert("Borrow transaction added successfully!");
             updateFlashcards();
             updateCharts(JSON.parse(localStorage.getItem("transactions")) || []);
+            updateDashboardStats();
+            if (typeof refreshCharts === "function") refreshCharts();
+
+
             borrowForm.reset();
         });
     }
@@ -464,6 +494,10 @@ function markAsReturned(id) {
             alert("Lend transaction added successfully!");
             updateFlashcards();
             updateCharts(JSON.parse(localStorage.getItem("transactions")) || []);
+            updateDashboardStats();
+            if (typeof refreshCharts === "function") refreshCharts();
+
+
             lendForm.reset();
         });
     }
@@ -485,6 +519,10 @@ function markAsReturned(id) {
         });
         updateFlashcards();
         updateCharts(JSON.parse(localStorage.getItem("transactions")) || []);
+        updateDashboardStats();
+        if (typeof refreshCharts === "function") refreshCharts();
+
+
     }
 
     function updateFlashcards() {
@@ -560,3 +598,127 @@ function renderHistory() {
         container.appendChild(card);
     });
 }
+
+function updateStatsView() {
+  const history = JSON.parse(localStorage.getItem("history")) || [];
+  const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+  let totalLent = 0, totalBorrowed = 0;
+  let onTime = 0, late = 0, early = 0, active = 0;
+
+  history.forEach(item => {
+    if (item.type === "lent") totalLent += Number(item.amount);
+    if (item.type === "borrowed") totalBorrowed += Number(item.amount);
+
+    if (item.status?.state === "on-time") onTime++;
+    else if (item.status?.state === "late") late++;
+    else if (item.status?.state === "early") early++;
+    else if (item.status?.state === "active") active++;
+  });
+
+  // update DOM
+  document.getElementById("stat-total-lent").textContent = `₹${totalLent}`;
+  document.getElementById("stat-total-borrowed").textContent = `₹${totalBorrowed}`;
+  document.getElementById("stat-active").textContent = active;
+  document.getElementById("stat-on-time").textContent = onTime;
+  document.getElementById("stat-late").textContent = late;
+  document.getElementById("stat-early").textContent = early;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateDashboardStats();
+});
+
+function updateDashboardStats() {
+  const history = JSON.parse(localStorage.getItem("history")) || [];
+  const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+  let totalLent = 0;
+  let totalBorrowed = 0;
+  let totalTransactions = history.length;
+
+  history.forEach(item => {
+    if (item.type === "lent") totalLent += Number(item.amount);
+    if (item.type === "borrowed") totalBorrowed += Number(item.amount);
+  });
+
+  const lentEl = document.getElementById("stats-total-lent");
+  const borrowedEl = document.getElementById("stats-total-borrowed");
+  const transEl = document.getElementById("stats-total-trans");
+
+  if (lentEl) lentEl.textContent = `Rs ${totalLent}`;
+  if (borrowedEl) borrowedEl.textContent = `Rs ${totalBorrowed}`;
+  if (transEl) transEl.textContent = totalTransactions;
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateReportStats();
+});
+
+function updateReportStats() {
+  // Pull both completed and active transactions
+  const history = JSON.parse(localStorage.getItem("history")) || [];
+  const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+  // Combine all entries for lifetime reporting
+  const allRecords = [...history, ...transactions];
+
+  let onTime = 0, early = 0, late = 0;
+
+  // Count repayment statuses across all stored records
+  allRecords.forEach(item => {
+    if (!item.status) return;
+    const state = item.status.state?.toLowerCase();
+
+    if (state === "on-time") onTime++;
+    else if (state === "early") early++;
+    else if (state === "late") late++;
+  });
+
+  // Calculate Trust Score = ((onTime + early) / total) * 100
+  const totalCompleted = onTime + early + late;
+  let trustScore = 0;
+  if (totalCompleted > 0) {
+    trustScore = ((onTime + early) / totalCompleted * 100).toFixed(1);
+  }
+
+  // Update DOM if elements exist (safe for all pages)
+  const onTimeEl = document.getElementById("on-time-count");
+  const earlyEl = document.getElementById("early-count");
+  const lateEl = document.getElementById("late-count");
+  const trustEl = document.getElementById("trust-score");
+
+  if (onTimeEl) onTimeEl.textContent = onTime;
+  if (earlyEl) earlyEl.textContent = early;
+  if (lateEl) lateEl.textContent = late;
+  if (trustEl) trustEl.textContent = `${trustScore}`;
+}
+
+
+// =================== CLEAR HISTORY BUTTON ===================
+document.addEventListener("DOMContentLoaded", () => {
+  const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+  const historyContainer = document.getElementById("history-cards-container");
+
+  if (clearHistoryBtn && historyContainer) {
+    clearHistoryBtn.addEventListener("click", () => {
+      const confirmClear = confirm("Are you sure you want to clear all history? This cannot be undone.");
+      if (!confirmClear) return;
+
+      // Clear from localStorage
+      localStorage.removeItem("history");
+      localStorage.removeItem("transactions");
+
+      // Empty UI instantly
+      historyContainer.innerHTML = "<p style='color:#aaa;text-align:center;'>History cleared. Start fresh!</p>";
+
+      // Optionally refresh charts & dashboard stats
+      updateDashboardStats?.();
+      updateStatsView?.();
+      if (typeof refreshCharts === "function") refreshCharts();
+
+      alert("All history has been cleared successfully!");
+    });
+  }
+});

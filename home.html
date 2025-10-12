@@ -18,7 +18,8 @@
                 <a href="#">Home</a>
                 <a href="dashboard.html">Dashboard</a>
                 <a href="report.html">Report</a>
-                <a href="#">About</a>
+                <a href="home.html#about-section" class="about-link">About</a>
+
                 <button class="signbtn" onclick="window.location.href='signin.html';"><p>Sign in</p></button>
             </nav>
         </div>
@@ -97,7 +98,7 @@
         </div>
     </section>
     <!-- FEATURE SECTION -->
-    <section class="features">
+    <section class="features" id="about-section">
         <div class="container">
             <h2 class="tutorial-heading">How to use AssetPilot</h2>
 
@@ -307,7 +308,10 @@
     <section class="history-section">
         <h2>Your <span class="highlight">History</span>
             <!-- This close button is important for functionality -->
-            <span class="close-wrap"><button class="closeModal">X</button></span>
+            <span class="history-controls">
+      <button id="clearHistoryBtn" title="Clear History" class="trash-btn">🗑️</button>
+      <button class="closeModal">✖</button>
+    </span>
         </h2>
         <div id="history-cards-container">
         <div class="history-card active">
@@ -341,6 +345,23 @@
         </div>
         </div>
     </section>
+
+    <!-- View Stats Modal -->
+<div class="view-stats">
+  <h1 class="stats-heading">Your <span class="highlight">Stats</span>
+    <span class="close-wrap"><button class="closeModal">X</button></span>
+  </h1>
+
+  <div class="stats-grid">
+    <div class="stat-item"><h3>Total Lent</h3><p id="stat-total-lent">₹0</p></div>
+    <div class="stat-item"><h3>Total Borrowed</h3><p id="stat-total-borrowed">₹0</p></div>
+    <div class="stat-item"><h3>Active Transactions</h3><p id="stat-active">0</p></div>
+    <div class="stat-item"><h3>Returned On Time</h3><p id="stat-on-time">0</p></div>
+    <div class="stat-item"><h3>Returned Late</h3><p id="stat-late">0</p></div>
+    <div class="stat-item"><h3>Returned Early</h3><p id="stat-early">0</p></div>
+  </div>
+</div>
+
     </div>
     <script src="script.js" defer></script>
 </body>

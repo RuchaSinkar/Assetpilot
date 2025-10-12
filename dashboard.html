@@ -17,7 +17,7 @@
                 <a href="home.html">Home</a>
                 <a href="dashboard.html">Dashboard</a>
                 <a href="report.html">Report</a>
-                <a href="#">About</a>
+                <a href="home.html#about-section" class="about-link">About</a>
                 <button class="signbtn" onclick="window.location.href='signin.html';"><p>Sign in</p></button>
             </nav>
         </div>
@@ -95,21 +95,21 @@
             <div class="main-card main-stat-card1">
                 <div class="stat-card">
                 <h3>Total Assets Lent so far</h3>
-                <span class="main-data lent-data">Rs 15000</span>
+                <span class="main-data lent-data" id="stats-total-lent">Rs 0</span>
                 </div>
             </div>
 
             <div class="main-card main-stat-card2">
                 <div class="stat-card">
                 <h3>Total Assets Borrowed so far</h3>
-                <span class="main-data borrow-data">Rs 35500</span>
+                <span class="main-data borrow-data" id="stats-total-borrowed">Rs 0</span>
                 </div>
             </div>
 
             <div class="main-card main-stat-card3">
                 <div class="stat-card">
                 <h3>Total Transactions so far</h3>
-                <span class="main-data trans-data">35</span>
+                <span class="main-data trans-data" id="stats-total-trans">0</span>
                 </div>
             </div>
 
