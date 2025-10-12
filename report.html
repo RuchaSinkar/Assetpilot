@@ -18,7 +18,7 @@
                 <a href="home.html">Home</a>
                 <a href="dashboard.html">Dashboard</a>
                 <a href="#">Report</a>"
-                <a href="#">About</a>
+                <a href="home.html#about-section" class="about-link">About</a>
                 <button class="signbtn" onclick="window.location.href='signin.html';"><p>Sign in</p></button>
             </nav>
         </div>
@@ -28,18 +28,19 @@
         <h1 class="report-title">Your Performance Report</h1>
         <div class="Trust-score-container">
             <div class="trust-score-block block1">
-                <p class="trust-score-data">Total On Time Repayment</p>
-                <p class="trust-score-data data1">16</p>
-                <p class="trust-score-data">Total Early Repayment</p>
-                <p class="trust-score-data data2">4</p>
-                <p class="trust-score-data">Total Red Repayment</p>
-                <p class="trust-score-data data3">8</p>
-            </div>
+  <p class="trust-score-data">Total On-Time Repayments</p>
+  <p class="trust-score-data data1" id="on-time-count">0</p>
+  <p class="trust-score-data">Total Early Repayments</p>
+  <p class="trust-score-data data2" id="early-count">0</p>
+  <p class="trust-score-data">Total Late Repayments</p>
+  <p class="trust-score-data data3" id="late-count">0</p>
+</div>
 
-            <div class="trust-score-block block2">
-                <p class="trust-score-heading">Your Trust Score is</p>
-                <p class="trust-score-data score">71.4</p>
-                <p class="trust-score-extra">Based on your repayment history</p>
+<div class="trust-score-block block2">
+  <p class="trust-score-heading">Your Trust Score is</p>
+  <p class="trust-score-data score" id="trust-score">0</p>
+  <p class="trust-score-extra">Based on your repayment history</p>
+</div>
         </div>
     </section>
     <!-- -------------------------------MILESTONE SECTION 2---------------------------------------------------- -->
@@ -110,73 +111,6 @@
     
     </section>
 
-    <!-- -------------------------------MILESTONE SECTION 3---------------------------------------------------- -->
-    <section class="milestones-section type4">
-        <h1>Milestones Badges</h1>
-        
-        <div class="carousel-container type4">
-            
-            <!-- Milestones Container -->
-            <div class="milestones-wrapper4">
-                <div class="milestones-container4" id="milestonesContainer2">
-                    <div class="milestone-card4">
-                        <img src="images/milestone1.png" alt="Milestone 1">
-                        <h3>Streak Master</h3>
-                        <p>10 on-time repayments in a row</p>
-                    </div>
-                    
-                    <div class="milestone-card4">
-                        <img src="images/milestone2.png" alt="Milestone 2">
-                        <h3>Debt Slayer</h3>
-                        <p>Cleared all debts in a single month</p>
-                    </div>
-                    
-                    <div class="milestone-card4">
-                        <img src="images/milestone3.png" alt="Milestone 3">
-                        <h3>Trust Badge</h3>
-                        <p>Kept 100% on-time repayment for 6 months</p>
-                    </div>
-                    
-                    <div class="milestone-card4">
-                        <img src="images/milestone4.png" alt="Milestone 4">
-                        <h3>Asset Whale</h3>
-                        <p>Managed total asset of ₹1,00,000</p>
-                    </div>
-                    
-                    <div class="milestone-card4">
-                        <img src="images/milestone5.png" alt="Milestone 5">
-                        <h3>diversified Pro</h3>
-                        <p>Lent or Borrowed with all asset categories</p>
-                    </div>
-                    
-                    <div class="milestone-card4">
-                        <img src="images/milestone6.png" alt="Milestone 6">
-                        <h3>Zero Debt</h3>
-                        <p>No outstanding debts for 30+ days</p>
-                    </div>
-                    
-                    <div class="milestone-card4">
-                        <img src="images/milestone8.png" alt="Milestone 7">
-                        <h3>Deal Maker</h3>
-                        <p>Completed 50+ transaction</p>
-                    </div>
-                    
-                    <div class="milestone-card4">
-                        <img src="images/milestone7.png" alt="Milestone 8">
-                        <h3>Time Keeper</h3>
-                        <p>Never missed a due date for 3 months</p>
-                    </div>
-                    
-                    <div class="milestone-card4">
-                        <img src="images/milestone9.png" alt="Milestone 9">
-                        <h3>Bounce Back</h3>
-                        <p>Cleared overdue debt before penalty</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-    </section>
     
     <!-- FOOTER -->
     <footer class="site-footer">
@@ -210,5 +144,6 @@
             <p>&copy; 2025 Asset Pilot. All rights reserved.</p>
         </div>
     </footer>
+    <script src="script.js" defer></script>
 </body>
 </html>
