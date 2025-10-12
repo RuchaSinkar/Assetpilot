@@ -285,6 +285,235 @@ class AssetPilotCarousel {
   }
 }
 
+class DynamicCalendar {
+  constructor() {
+    this.currentDate = new Date();
+    this.currentMonth = this.currentDate.getMonth();
+    this.currentYear = this.currentDate.getFullYear();
+    this.today = new Date();
+    
+    this.monthNames = [
+      'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
+      'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+    ];
+    
+    this.init();
+  }
+
+  init() {
+    const header = document.querySelector('.calendar-header');
+    if (!header) {
+      console.error('Calendar header not found');
+      return;
+    }
+    
+    // Clear existing content
+    header.innerHTML = '';
+    header.style.display = 'flex';
+    header.style.alignItems = 'center';
+    header.style.justifyContent = 'center';
+    header.style.gap = '2rem';
+    
+    // Create previous button
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'calendar-nav-btn';
+    prevBtn.id = 'prevMonth';
+    prevBtn.title = 'Previous Month';
+    prevBtn.textContent = '<';
+    prevBtn.style.color = 'white';
+    prevBtn.onclick = (e) => {
+      e.preventDefault();
+      this.prevMonth();
+    };
+    
+    // Create month/year span
+    const monthYearSpan = document.createElement('span');
+    monthYearSpan.className = 'calendar-month-year';
+    monthYearSpan.style.color = 'white';
+    monthYearSpan.textContent = `${this.monthNames[this.currentMonth]} ${this.currentYear}`;
+    
+    // Create next button
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'calendar-nav-btn';
+    nextBtn.id = 'nextMonth';
+    nextBtn.title = 'Next Month';
+    nextBtn.textContent = '>';
+    nextBtn.style.color = 'white';
+    nextBtn.onclick = (e) => {
+      e.preventDefault();
+      this.nextMonth();
+    };
+    
+    // Append all elements
+    header.appendChild(prevBtn);
+    header.appendChild(monthYearSpan);
+    header.appendChild(nextBtn);
+    
+    this.renderCalendar();
+  }
+
+  prevMonth() {
+    this.currentMonth--;
+    if (this.currentMonth < 0) {
+      this.currentMonth = 11;
+      this.currentYear--;
+    }
+    this.updateHeader();
+    this.renderCalendar();
+  }
+
+  nextMonth() {
+    this.currentMonth++;
+    if (this.currentMonth > 11) {
+      this.currentMonth = 0;
+      this.currentYear++;
+    }
+    this.updateHeader();
+    this.renderCalendar();
+  }
+
+  updateHeader() {
+    const monthYearSpan = document.querySelector('.calendar-month-year');
+    if (monthYearSpan) {
+      monthYearSpan.textContent = `${this.monthNames[this.currentMonth]} ${this.currentYear}`;
+    }
+  }
+
+  renderCalendar() {
+    const calendarDays = document.querySelector('.calendar-days');
+    if (!calendarDays) return;
+    
+    calendarDays.innerHTML = '';
+    
+    // Get first day of month and number of days
+    const firstDay = new Date(this.currentYear, this.currentMonth, 1);
+    const lastDay = new Date(this.currentYear, this.currentMonth + 1, 0);
+    const numDays = lastDay.getDate();
+    const firstDayOfWeek = firstDay.getDay(); // 0 = Sunday
+    
+    // Get previous month's last days
+    const prevMonthLastDay = new Date(this.currentYear, this.currentMonth, 0).getDate();
+    
+    // Get transactions from localStorage
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    
+    // Add previous month's trailing days
+    for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+      const day = prevMonthLastDay - i;
+      const div = document.createElement('div');
+      div.setAttribute('data-date', day);
+      div.classList.add('prev-month');
+      div.style.opacity = '0.3';
+      div.style.pointerEvents = 'none';
+      calendarDays.appendChild(div);
+    }
+    
+    // Add current month's days
+    for (let day = 1; day <= numDays; day++) {
+      const div = document.createElement('div');
+      div.setAttribute('data-date', day);
+      
+      // Check if this is today
+      if (
+        day === this.today.getDate() &&
+        this.currentMonth === this.today.getMonth() &&
+        this.currentYear === this.today.getFullYear()
+      ) {
+        div.classList.add('today');
+      }
+      
+      // Check for transactions on this date
+      const dateStr = `${this.currentYear}-${String(this.currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      
+      const dayTransactions = transactions.filter(tx => tx.deadline === dateStr);
+      
+      if (dayTransactions.length > 0) {
+        dayTransactions.forEach(tx => {
+          const h6 = document.createElement('h6');
+          h6.textContent = `₹${tx.amount} ${tx.type === 'borrowed' ? 'from' : 'to'} ${tx.person}`;
+          h6.style.fontSize = '0.7rem';
+          h6.style.margin = '0';
+          h6.style.marginTop = '0.3rem';
+          h6.style.lineHeight = '1.2';
+          h6.style.color = 'white';
+          div.appendChild(h6);
+          
+          // Add appropriate class based on transaction type
+          if (tx.type === 'borrowed') {
+            div.classList.add('repay');
+          } else {
+            div.classList.add('request');
+          }
+        });
+      }
+      
+      calendarDays.appendChild(div);
+    }
+    
+    // Add next month's leading days to fill the grid
+    const totalCells = calendarDays.children.length;
+    const remainingCells = 42 - totalCells; // 6 rows × 7 days = 42
+    
+    for (let day = 1; day <= remainingCells; day++) {
+      const div = document.createElement('div');
+      div.setAttribute('data-date', day);
+      div.classList.add('next-month');
+      div.style.opacity = '0.3';
+      div.style.pointerEvents = 'none';
+      calendarDays.appendChild(div);
+    }
+  }
+
+  // Method to refresh calendar when transactions change
+  refresh() {
+    this.renderCalendar();
+  }
+}
+
+// Function to be called when calendar needs to refresh
+function renderCalendar() {
+  if (window.dynamicCalendar) {
+    window.dynamicCalendar.refresh();
+  }
+}
+
+// Initialize calendar when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize calendar if the calendar element exists
+  if (document.querySelector('.calendar')) {
+    window.dynamicCalendar = new DynamicCalendar();
+  }
+});
+
+// Also update calendar when transactions are added/removed
+setTimeout(() => {
+  const borrowFormElement = document.querySelector('.borrow');
+  if (borrowFormElement) {
+    borrowFormElement.addEventListener('submit', function(e) {
+      setTimeout(() => {
+        renderCalendar();
+      }, 200);
+    });
+  }
+
+  const lendFormElement = document.querySelector('.lend');
+  if (lendFormElement) {
+    lendFormElement.addEventListener('submit', function(e) {
+      setTimeout(() => {
+        renderCalendar();
+      }, 200);
+    });
+  }
+}, 1000);
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("screenshotsContainer")) {
+    window.assetPilotCarousel = new AssetPilotCarousel();
+  }
+  initializeForms();
+});
+
+
 document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("screenshotsContainer")) {
     window.assetPilotCarousel = new AssetPilotCarousel();
