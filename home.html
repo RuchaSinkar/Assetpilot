@@ -38,7 +38,7 @@
                 <button class="hero-card card1" id="borrowBtn"><h3>Borrow</h3></button>
                 <button class="hero-card card2" id="lendBtn"><h3>Lend</h3></button>
                 <button class="hero-card card3" id="statsBtn"><h3>View Stats</h3></button>
-                <button class="hero-card card4" href="#"><h3>History</h3></button>
+                <button class="hero-card card4" id="historyBtn"><h3>History</h3></button>
             </div>
         </div>
     </section>
@@ -303,6 +303,44 @@
             </div>
         </form>
     </div>
+
+    <section class="history-section">
+        <h2>Your <span class="highlight">History</span>
+            <!-- This close button is important for functionality -->
+            <span class="close-wrap"><button class="closeModal">X</button></span>
+        </h2>
+        <div id="history-cards-container">
+        <div class="history-card active">
+            <span class="status-dot red"></span>
+            <div class="history-details">
+              <h3>Borrowed from Yash on 2025-07-23</h3>
+              <p>Amount: ₹1700 | Category: Silver</p>
+              <p>Deadline on: 2025-08-26 | Repaid on: Not returned yet</p>
+            </div>
+            <span class="status-label gold">Active</span>
+        </div>
+
+        <div class="history-card late">
+            <span class="status-dot red"></span>
+            <div class="history-details">
+              <h3>Borrowed from Shriya on 2025-05-16</h3>
+              <p>Amount: ₹900 | Category: Cash</p>
+              <p>Deadline on: 2025-06-11 | Repaid on: 2025-06-16</p>
+            </div>
+            <span class="status-label red-bg">5 days late</span>
+        </div>
+
+        <div class="history-card early">
+            <span class="status-dot green"></span>
+            <div class="history-details">
+              <h3>Lent to Shreeya on 2024-12-09</h3>
+              <p>Amount: ₹15000 | Category: Utility</p>
+              <p>Deadline on: 2025-01-08 | Received on: 2025-01-05</p>
+            </div>
+            <span class="status-label green-bg">3 days early</span>
+        </div>
+        </div>
+    </section>
     </div>
     <script src="script.js" defer></script>
 </body>
