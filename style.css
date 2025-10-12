@@ -842,6 +842,87 @@ figcaption{
 .close-wrap {
     float: right;         /* pushes the X to the right end */
 }
+
+/* ---------------------------------------- History Section ----------------------------------- */
+.history-section {
+    max-width: 900px; /* from your original CSS */
+    display: none; /* This is the key part */
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: #363639;
+    color: white;
+    margin: 1rem; /* A smaller margin often works better on different screens */
+    display: none;  /* hide by default */
+    padding: 3rem 5rem;
+    border-radius: 30px;
+    max-height: 85vh;
+    overflow-y: auto; 
+}
+
+.history-section::-webkit-scrollbar {
+    width: 10px; /* Adjust the width of the scrollbar */
+}
+
+/* This targets the track (the background area the scrollbar moves along). */
+.history-section::-webkit-scrollbar-track {
+    background: #2b2b2d; /* A dark color matching your theme */
+    border-radius: 10px;
+}
+
+
+.history-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    width: 100%;
+}
+
+.history-section .highlight {
+    color: #AD49E1;
+}
+
+.history-card {
+    background: #2b2b2d;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease;
+
+}
+
+.history-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
+.status-dot {
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.status-dot.red { background: red; }
+.status-dot.green { background: green; }
+
+.history-details {
+    flex: 1;
+}
+
+.status-label {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.status-label.gold { background: goldenrod; color: black; }
+.status-label.red-bg { background: darkred; color: white; }
+.status-label.green-bg { background: darkgreen; color: white; }
 /*-----------------------------------Login page---------------------------------------*/
 
 .sign-body {
@@ -1177,6 +1258,21 @@ figcaption{
     margin-left: 1rem;
 }
 
+/* Smooth slide-out animation when marking as returned */
+.transaction.slide-out {
+  animation: slideOut 0.2s ease forwards;
+}
+
+@keyframes slideOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%); /* change to -100% if you want left slide */
+  }
+}
 
 
 /*-------------------------------------statistics Page----------------------------------------------*/
@@ -1244,7 +1340,202 @@ figcaption{
 .borrow-head{
         color:#cbc0c0;
 }
+/*-------------------------------------Calendar Page----------------------------------------------*/
+.calendar-container {
+  margin: 2rem auto;
+  max-width: 1000px;
+  padding: 0 1rem;
+}
 
+.calendar {
+  background: linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%);
+  color: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border: 1px solid #333;
+}
+
+.calendar-header {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  text-align: center;
+  background: linear-gradient(90deg, #fefdff, #c1bfc3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.calendar-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.calendar-weekdays div {
+  font-weight: 700;
+  color: #AD49E1;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.calendar-days div {
+  background: #2b2b2d;
+  border-radius: 12px;
+  height: 90px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.calendar-days div:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(173, 73, 225, 0.3);
+  border-color: #AD49E1;
+}
+
+/* Date number styling */
+.calendar-days div::before {
+  content: attr(data-date);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: white;
+  align-self: flex-start;
+}
+
+/* Today's date */
+.calendar-days div.today {
+  background: rgb(53, 53, 53);
+  border-color: #7A1CAC;
+}
+
+.calendar-days div.today::before {
+  color: #AD49E1;
+  font-size: 1.3rem;
+}
+
+/* Repayment deadline */
+.calendar-days div.repay {
+  background: rgb(67, 35, 35);
+  border-color: #2b2b2d;
+
+}
+
+.calendar-days div.repay::before {
+  color: #ff6b7a;
+}
+
+/* Request deadline */
+.calendar-days div.request {
+  background: rgb(38, 49, 38);
+  border-color: #2b2b2d;
+}
+
+.calendar-days div.request::before {
+  color: #7bed9f;
+}
+
+.calendar-days div .amount {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+
+
+.calendar-days div .person {
+  font-size: 0.65rem;
+  color: #bbb;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* Legend/Footer */
+.calendar-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #444;
+  font-size: 0.9rem;
+}
+
+.calendar-footer .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calendar-footer .dot {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
+.calendar-footer .red { 
+  background: #ff4757;
+  box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+}
+
+.calendar-footer .green { 
+  background: #2ed573;
+  box-shadow: 0 0 10px rgba(46, 213, 115, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .calendar {
+    padding: 1rem;
+ }
+  
+  .calendar-header {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .calendar-days div {
+    height: 75px;
+    padding: 0.5rem;
+  }
+  
+  .calendar-weekdays div {
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+  }
+  
+  .calendar-footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
 /*-------------------------------------Report Page----------------------------------------------*/
 .report-body{
     background-color: #1A1A1D;

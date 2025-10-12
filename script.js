@@ -18,34 +18,84 @@ document.querySelectorAll('.icon').forEach(icon => {
 
 const borrowBtn = document.getElementById("borrowBtn");
 const lendBtn = document.getElementById("lendBtn");
+const historyBtn = document.getElementById("historyBtn"); // Make sure your button has id="historyBtn" in HTML
 const modalOverlay = document.getElementById("modalOverlay");
 const closeModalBtns = document.querySelectorAll(".closeModal");
+
+// Modal sections
 const borrowForm = document.querySelector(".borrow");
 const lendForm = document.querySelector(".lend");
+const historySection = document.querySelector(".history-section");
 
-if (borrowBtn && lendBtn && modalOverlay && closeModalBtns) {
-  // when user clicks borrow button
-  borrowBtn.addEventListener("click", () => {
-    modalOverlay.style.display = "flex";
-    borrowForm.style.display = "grid";
-    lendForm.style.display = "none";
-  });
+// --- Modal Logic ---
 
-  // when user clicks lend button
-  lendBtn.addEventListener("click", () => {
-    modalOverlay.style.display = "flex";
-    lendForm.style.display = "grid";
-    borrowForm.style.display = "none";
-  });
+// This function hides all modal sections. It's the key to preventing overlaps.
+function hideAllModals() {
+    if (borrowForm) borrowForm.style.display = "none";
+    if (lendForm) lendForm.style.display = "none";
+    if (historySection) historySection.style.display = "none";
+}
 
-  // when user clicks close button
-  closeModalBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      modalOverlay.style.display = "none";
-      borrowForm.style.display = "none";
-      lendForm.style.display = "none";
+// This function shows the overlay and a specific modal.
+function showModal(modalElement) {
+    // First, hide everything to ensure a clean slate.
+    hideAllModals();
+
+    // Set the correct display property for the chosen modal.
+    if (modalElement === borrowForm || modalElement === lendForm) {
+        modalElement.style.display = "grid";
+    } else if (modalElement === historySection) {
+        modalElement.style.display = "flex";
+    }
+
+    // Finally, show the main overlay.
+    if (modalOverlay) modalOverlay.style.display = "flex";
+}
+
+// This function closes the entire modal overlay.
+function closeModal() {
+    if (modalOverlay) modalOverlay.style.display = "none";
+    // It's good practice to also hide all modals upon closing.
+    hideAllModals();
+}
+
+// --- Event Listeners ---
+
+// Check if all essential elements were found before adding listeners.
+if (borrowBtn && lendBtn && historyBtn && modalOverlay && closeModalBtns && borrowForm && lendForm && historySection) {
+  
+    // When user clicks the "Borrow" button:
+    borrowBtn.addEventListener("click", () => {
+        showModal(borrowForm);
     });
-  });
+
+    // When user clicks the "Lend" button:
+    lendBtn.addEventListener("click", () => {
+        showModal(lendForm);
+    });
+
+    // When user clicks the "History" button:
+    historyBtn.addEventListener("click", () => {
+    renderHistory(); // Render fresh history data just before showing
+    showModal(historySection);
+});
+
+    // Add a listener to every close button.
+    closeModalBtns.forEach(btn => {
+        btn.addEventListener("click", closeModal);
+    });
+
+    // Optional: Allow closing the modal by clicking on the overlay background.
+    modalOverlay.addEventListener("click", (event) => {
+        // We check if the click was on the overlay itself, not on its children (the modal content).
+        if (event.target === modalOverlay) {
+            closeModal();
+        }
+    });
+
+} else {
+    // If an element is missing, log an error to help with debugging.
+    console.error("Modal script could not run. One or more required elements are missing from the HTML or have incorrect IDs/classes.");
 }
 
 //--------------------------------------------for sign in page----------------------------------------------------------
@@ -242,6 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
 /*------------------------------------------------------ */
  document.addEventListener("DOMContentLoaded", function () {
     const container = document.getElementById("transactionContainer");
@@ -269,39 +320,70 @@ document.addEventListener("DOMContentLoaded", () => {
             <span class="amount">₹${item.amount} - <b>${item.assetType}</b></span>
             <span class="detail">${item.type === "borrowed" ? "Borrowed from " + item.person : "Lent to " + item.person}</span>
             <span class="due">Due ${item.deadline} <small>${calcDaysLeft(item.deadline)} days left</small></span>
-            <button class="mark-returned" data-index="${index}">&#x2714;</button>
+            <button class="mark-returned" data-id="${item.id}" title="Mark as Returned">&#x2714;</button>
         `;
         container.appendChild(div);
     });
 
     // Add event listeners for all “Mark as Returned” buttons
-    const buttons = container.querySelectorAll(".mark-returned");
-    buttons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            markAsReturned(parseInt(btn.dataset.index));
-        });
-    });
+    container.querySelectorAll(".mark-returned").forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    const card = e.target.closest(".transaction");
+
+    // Add the animation class
+    card.classList.add("slide-out");
+
+    // Wait for the animation to finish, then remove + update data
+    card.addEventListener("animationend", () => {
+      markAsReturned(e.target.dataset.id);
+    }, { once: true });
+  });
+});
+
 }
 
-function markAsReturned(index) {
+function markAsReturned(id) {
     let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
     let history = JSON.parse(localStorage.getItem("history")) || [];
+    
+    const transactionIndex = transactions.findIndex(tx => tx.id == id);
+    if (transactionIndex > -1) {
+        const [completedTransaction] = transactions.splice(transactionIndex, 1);
 
-    // Remove the transaction from active list
-    const [completed] = transactions.splice(index, 1);
+        const today = new Date();
+        const deadlineDate = new Date(completedTransaction.deadline);
+        today.setHours(0,0,0,0);
+        deadlineDate.setHours(0,0,0,0);
 
-    // Add it to history
-    history.push(completed);
+        const diffDays = Math.round((deadlineDate - today) / (1000 * 60 * 60 * 24));
+        completedTransaction.repaidOn = today.toISOString().split('T')[0];
 
-    // Save both back to localStorage
-    localStorage.setItem("transactions", JSON.stringify(transactions));
-    localStorage.setItem("history", JSON.stringify(history));
+        if (diffDays > 0) {
+            completedTransaction.status = { state: 'early', days: diffDays };
+        } else if (diffDays < 0) {
+            completedTransaction.status = { state: 'late', days: Math.abs(diffDays) };
+        } else {
+            completedTransaction.status = { state: 'on-time', days: 0 };
+        }
 
-    // Re-render transactions and update dashboard cards
-    renderTransactions(transactions);
-    updateFlashcards(); // This is your function for total lent/borrowed/pending
-    updateCharts(JSON.parse(localStorage.getItem("transactions")) || []);
-  }
+        // 🟡 Find and update matching history entry
+        const histIndex = history.findIndex(h => h.id == completedTransaction.id);
+        if (histIndex > -1) {
+            history[histIndex] = completedTransaction;
+        } else {
+            history.unshift(completedTransaction);
+        }
+
+        localStorage.setItem("transactions", JSON.stringify(transactions));
+        localStorage.setItem("history", JSON.stringify(history));
+
+        renderInitialTransactions?.();
+        updateFlashcards?.();
+        renderCalendar?.();
+    }
+
+    
+}
 
 
 
@@ -310,12 +392,21 @@ function markAsReturned(index) {
         borrowForm.addEventListener("submit", function (e) {
             e.preventDefault();
 
+            function addToHistoryActive(entry) {
+            const history = JSON.parse(localStorage.getItem("history")) || [];
+            entry.repaidOn = "Not yet";
+            entry.status = { state: "active" };
+            history.unshift(entry);
+            localStorage.setItem("history", JSON.stringify(history));
+}
+
             const borrowAmount = borrowForm.querySelector(".amount-borrow").value;
             const borrowAsset = borrowForm.querySelector(".assetType").value;
             const borrowFrom = borrowForm.querySelector(".borrowedFrom").value;
             const borrowDeadline = borrowForm.querySelector(".deadline").value;
 
             const newTransaction = {
+                id: Date.now(),
                 type: "borrowed",
                 amount: borrowAmount,
                 assetType: borrowAsset,
@@ -326,6 +417,8 @@ function markAsReturned(index) {
             const existing = JSON.parse(localStorage.getItem("transactions")) || [];
             existing.push(newTransaction);
             localStorage.setItem("transactions", JSON.stringify(existing));
+
+            addToHistoryActive(newTransaction);
             
             alert("Borrow transaction added successfully!");
             updateFlashcards();
@@ -339,12 +432,22 @@ function markAsReturned(index) {
         lendForm.addEventListener("submit", function (e) {
             e.preventDefault();
 
+            function addToHistoryActive(entry) {
+    const history = JSON.parse(localStorage.getItem("history")) || [];
+    entry.repaidOn = "Not yet";
+    entry.status = { state: "active" };
+    history.unshift(entry);
+    localStorage.setItem("history", JSON.stringify(history));
+}
+
+
             const lendAmount = lendForm.querySelector(".amount-lend").value;
             const lendAsset = lendForm.querySelector(".assetType").value;
             const lendTo = lendForm.querySelector(".LentTo").value;
             const lendDeadline = lendForm.querySelector(".deadline").value;
 
             const newTransaction = {
+                id: Date.now(),
                 type: "lent",
                 amount: lendAmount,
                 assetType: lendAsset,
@@ -355,6 +458,8 @@ function markAsReturned(index) {
             const existing = JSON.parse(localStorage.getItem("transactions")) || [];
             existing.push(newTransaction);
             localStorage.setItem("transactions", JSON.stringify(existing));
+
+            addToHistoryActive(newTransaction);
             
             alert("Lend transaction added successfully!");
             updateFlashcards();
@@ -403,6 +508,55 @@ function markAsReturned(index) {
 }
 
 });
+function renderHistory() {
+    const history = JSON.parse(localStorage.getItem("history")) || [];
+    const container = document.getElementById("history-cards-container");
+    if (!container) return;
 
+    container.innerHTML = ""; // Clear static/old content
 
+    // FIX #1: Changed 'zero' to the number 0
+    if (history.length === 0) {
+        container.innerHTML = "<p style='color: #aaa; text-align: center;'>Your transaction history is empty.</p>";
+        return;
+    }
 
+    history.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "history-card";
+        
+        let statusLabel = '';
+        let statusClass = '';
+        
+        // FIX #2: Added a check to see if item.status exists
+        if (item.status) { 
+    if (item.status.state === 'early') {
+        statusLabel = `${item.status.days} day${item.status.days > 1 ? 's' : ''} early`;
+        statusClass = 'green-bg';
+    } else if (item.status.state === 'late') {
+        statusLabel = `${item.status.days} day${item.status.days > 1 ? 's' : ''} late`;
+        statusClass = 'red-bg';
+    } else if (item.status.state === 'active') {
+        statusLabel = 'Active';
+        statusClass = 'gold';
+    } else {
+        statusLabel = 'On time';
+        statusClass = 'green-bg';
+    }
+}
+
+        const verb = item.type === 'borrowed' ? 'Borrowed from' : 'Lent to';
+        const action = item.type === 'borrowed' ? 'Repaid on' : 'Received on';
+
+        card.innerHTML = `
+            <span class="status-dot ${item.type === 'borrowed' ? 'red' : 'green'}"></span>
+            <div class="history-details">
+                <h3>${verb} ${item.person}</h3>
+                <p>Amount: ₹${item.amount} | Category: ${item.assetType}</p>
+                <p>Deadline on: ${item.deadline} | ${action}: ${item.repaidOn}</p>
+            </div>
+            <span class="status-label ${statusClass}">${statusLabel}</span>
+        `;
+        container.appendChild(card);
+    });
+}
